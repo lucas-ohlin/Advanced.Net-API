@@ -45,17 +45,18 @@ namespace Labb4_API.Controllers {
         }
 
         [HttpPost]
-        public IActionResult AddLink(LinksHobbies entity) {
+        public IActionResult CreateLink(int id, string url, int personId, int hobbieId) {
 
             try {
 
-                if (entity == null)
-                    return BadRequest();
+                LinksHobbies newLink = new LinksHobbies() {
+                    Id = id,
+                    Link = url,
+                    PersonId = personId,
+                    HobbiesId = hobbieId,
+                };
 
-                var newList = _linkRepo.Add(entity);
-                return CreatedAtAction(nameof(GetSingeList), new {
-                    id = newList.Id
-                }, newList);
+                return Ok(newLink);
 
             } catch (Exception) {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error to add data...");
